@@ -126,15 +126,27 @@
 
         .mechanic-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
             margin-top: 20px;
         }
         .mechanic-box {
             background: var(--bg);
-            padding: 15px;
+            padding: 20px;
             border-radius: 8px;
-            border-left: 4px solid var(--primary);
+            border-left: 5px solid var(--primary);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .mechanic-box h3 { font-size: 1.1em; color: var(--primary-dark); margin-bottom: 15px; }
+        .example-box {
+            background: #f1f5f9;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            margin-top: auto;
+            border: 1px dashed var(--secondary);
         }
 
         /* Traffic Lights */
@@ -311,29 +323,60 @@
         <div class="module-card">
             <div class="module-header">
                 <div class="module-number">2</div>
-                <h2>4 Mekanisme Inti</h2>
+                <h2>4 Mekanisme Inti (Cara Jawab)</h2>
             </div>
-            <p>Pertanyaan berbeda membutuhkan "pola pikir" yang berbeda. Gunakan mekanisme yang tepat untuk soal yang tepat.</p>
+            <p>Setiap soal butuh kunci yang berbeda. Gunakan mekanisme yang tepat agar tidak terkecoh.</p>
+            
             <div class="mechanic-grid">
+                <!-- 1. Literal -->
                 <div class="mechanic-box">
-                    <h3>1. Kecocokan Literal</h3>
-                    <p><strong>Mekanisme:</strong> Cari & Tukar.</p>
-                    <p>Cari kalimatnya, tukar dengan sinonim. Jika tidak tertulis, berarti salah.</p>
+                    <h3>1. Kecocokan Literal (Cari & Tukar)</h3>
+                    <p style="margin-bottom:15px"><strong>Logika:</strong> Jawaban sudah ada di teks, hanya "berganti baju" (pakai sinonim). Jangan berpikir terlalu jauh.</p>
+                    <div class="example-box">
+                        <strong>Simple Example:</strong><br>
+                        <em>Text:</em> "Market price <u>plummeted</u> drastically."<br>
+                        <em>Correct Answer:</em> "Value <u>dropped</u> sharply."<br>
+                        <span style="color:var(--success-text); font-weight:bold; display:block; margin-top:5px;">✔ Synonym Pair</span>
+                    </div>
                 </div>
+
+                <!-- 2. Logic Puzzle -->
                 <div class="mechanic-box">
-                    <h3>2. Teka-teki Logika</h3>
-                    <p><strong>Mekanisme:</strong> Hubungan yang Hilang.</p>
-                    <p>Gabungkan Premis A + Premis B untuk menemukan Kesimpulan C.</p>
+                    <h3>2. Teka-teki Logika (Puzzle)</h3>
+                    <p style="margin-bottom:15px"><strong>Logika:</strong> Jawaban TIDAK TERTULIS di teks. Kamu harus jadi detektif: gabungkan petunjuk A dan B.</p>
+                    <div class="example-box">
+                        <strong>Simple Example:</strong><br>
+                        <em>Clue 1:</em> Fish need water.<br>
+                        <em>Clue 2:</em> This river is dry.<br>
+                        <em>Correct Answer:</em> The fish in this river are dead.<br>
+                        <span style="color:var(--accent); font-weight:bold; display:block; margin-top:5px;">⚡ Your Inference</span>
+                    </div>
                 </div>
+
+                <!-- 3. Big Picture -->
                 <div class="mechanic-box">
-                    <h3>3. Gambaran Besar</h3>
-                    <p><strong>Mekanisme:</strong> Payung.</p>
-                    <p>Apakah jawaban mencakup SEMUA paragraf? Hindari jawaban "Benar tapi Terlalu Spesifik".</p>
+                    <h3>3. Gambaran Besar (Payung)</h3>
+                    <p style="margin-bottom:15px"><strong>Logika:</strong> Cari jawaban yang bisa "memayungi" SEMUA paragraf. Jangan pilih yang cuma membahas satu hal kecil.</p>
+                    <div class="example-box">
+                        <strong>Simple Example:</strong><br>
+                        <em>Par 1:</em> Carrots. <em>Par 2:</em> Spinach. <em>Par 3:</em> Mustard Greens.<br>
+                        <em>Wrong:</em> "Carrots are healthy" (Too Narrow).<br>
+                        <em>Correct:</em> "Types of Vegetables" (Big Umbrella).<br>
+                        <span style="color:var(--primary); font-weight:bold; display:block; margin-top:5px;">☂ Topic Umbrella</span>
+                    </div>
                 </div>
+
+                <!-- 4. Relationship -->
                 <div class="mechanic-box">
-                    <h3>4. Hubungan</h3>
-                    <p><strong>Mekanisme:</strong> Analisis Fungsi.</p>
-                    <p>Abaikan <em>apa</em> yang dikatakan teks, fokus pada <em>apa fungsinya</em> (Mengontraskan? Mendukung?).</p>
+                    <h3>4. Hubungan (Fungsi)</h3>
+                    <p style="margin-bottom:15px"><strong>Logika:</strong> Jangan baca ceritanya, lihat TUGAS kalimatnya. Apakah dia <em>melawan</em>? <em>Mendukung</em>? atau <em>Memberi contoh</em>?</p>
+                    <div class="example-box">
+                        <strong>Simple Example:</strong><br>
+                        <em>Sentence 1:</em> "People love coffee."<br>
+                        <em>Sentence 2:</em> "But coffee causes insomnia."<br>
+                        <em>Relationship:</em> Sentence 2 <u>limits</u> the benefit of Sentence 1.<br>
+                        <span style="color:var(--error-text); font-weight:bold; display:block; margin-top:5px;">↔ Contradiction</span>
+                    </div>
                 </div>
             </div>
         </div>
