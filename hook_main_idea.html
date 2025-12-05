@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTBK English: Main Idea Master (Expanded)</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #475569;
+            --accent: #f59e0b;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --success: #10b981;
+            --error: #ef4444;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--secondary);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 { color: var(--primary); margin-bottom: 0.5rem; }
+        h2 { color: var(--secondary); font-size: 1.25rem; border-left: 4px solid var(--primary); padding-left: 1rem; margin-top: 2rem; }
+
+        /* Card Components */
+        .card {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .pattern-box {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 1.5rem;
+            align-items: center;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: transform 0.2s;
+        }
+
+        .pattern-box:hover { transform: translateY(-2px); border-color: var(--primary); }
+
+        .icon {
+            font-size: 2rem;
+            background: #eff6ff;
+            color: var(--primary);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        /* Interactive Quiz Section */
+        .quiz-container {
+            border: 2px dashed var(--primary);
+            padding: 2rem;
+            border-radius: 12px;
+            background: #f0f9ff;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 10%;
+            transition: width 0.3s ease;
+        }
+
+        .sentence {
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            cursor: pointer;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .sentence:hover { 
+            background-color: #dbeafe; 
+            border-color: var(--primary);
+        }
+        
+        .sentence.correct { 
+            background-color: #d1fae5; 
+            border-color: var(--success); 
+            color: #065f46; 
+            position: relative;
+        }
+
+        .sentence.correct::after {
+            content: "✅ Main Idea";
+            font-weight: bold;
+            float: right;
+        }
+
+        .sentence.wrong { 
+            background-color: #fee2e2; 
+            border-color: var(--error); 
+            color: #991b1b; 
+            opacity: 0.7;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 1rem;
+            display: block;
+            width: 100%;
+        }
+
+        .btn:hover { opacity: 0.9; }
+        .hidden { display: none; }
+
+        /* Visual Diagrams */
+        .diagram-funnel {
+            width: 0; 
+            height: 0; 
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-top: 60px solid var(--accent);
+            margin: 0 auto;
+        }
+        
+        .diagram-pyramid {
+            width: 0; 
+            height: 0; 
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 60px solid var(--primary);
+            margin: 0 auto;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .tag-main { background: #d1fae5; color: #065f46; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Main Idea Detective</h1>
+        <p>Master UTBK SNBT English Reading Comprehension</p>
+    </header>
+
+    <!-- SECTION 1: THEORY -->
+    <div class="card">
+        <h2>1. The "Hook vs. Main Idea" Patterns</h2>
+        <p>In UTBK, do not blindly pick the first sentence. Analyze the structure:</p>
+
+        <div class="pattern-box">
+            <div style="text-align: center;">
+                <div class="icon">↺</div>
+                <small>The Pivot</small>
+            </div>
+            <div>
+                <strong>The "However" Shift</strong>
+                <p>Sentence 1 is a myth/old belief. Sentence 2 uses <em>"However"</em> or <em>"But"</em> to state the true Main Idea.</p>
+            </div>
+        </div>
+
+        <div class="pattern-box">
+            <div style="text-align: center;">
+                <div class="diagram-funnel"></div>
+                <small>The Funnel</small>
+            </div>
+            <div>
+                <strong>Broad to Specific</strong>
+                <p>Sentence 1 is too broad (Global). Sentence 2 narrows down to the specific argument.</p>
+            </div>
+        </div>
+
+        <div class="pattern-box">
+            <div style="text-align: center;">
+                <div class="icon">?</div>
+                <small>Q & A</small>
+            </div>
+            <div>
+                <strong>Question & Answer</strong>
+                <p>If Sentence 1 is a question, it is NEVER the main idea. The Main Idea is the <strong>Answer</strong> (usually Sentence 2).</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 2: FIRST VS LAST SENTENCE -->
+    <div class="card">
+        <h2>2. First vs. Last Sentence Rule</h2>
+        
+        <div style="display: flex; justify-content: space-around; text-align: center; margin-top: 2rem;">
+            <div>
+                <div class="diagram-funnel" style="border-top-color: #cbd5e1;"></div>
+                <h3>Deductive</h3>
+                <p>Big Idea First → Details</p>
+                <span class="tag tag-main">Main Idea: First</span>
+            </div>
+            <div>
+                <div class="diagram-pyramid"></div>
+                <h3>Inductive</h3>
+                <p>Examples First → Conclusion</p>
+                <span class="tag tag-main">Main Idea: Last</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 3: INTERACTIVE PRACTICE -->
+    <div class="card quiz-container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h2>⚡ Practice: Spot the Main Idea</h2>
+            <span id="score-display" style="font-weight: bold; color: var(--primary);">Question 1/10</span>
+        </div>
+        
+        <div class="progress-bar">
+            <div id="progress-fill" class="progress-fill"></div>
+        </div>
+
+        <p>Read the paragraph below. Click on the sentence you think is the <strong>REAL Main Idea</strong>.</p>
+        
+        <div id="quiz-box">
+            <!-- Questions injected via JS -->
+        </div>
+        
+        <div id="feedback" class="hidden" style="margin-top: 1rem; font-weight: bold;"></div>
+        <button id="next-btn" class="btn hidden" onclick="nextQuestion()">Next Question</button>
+    </div>
+
+</div>
+
+<script>
+    const questions = [
+        // 1. Pivot Pattern
+        {
+            type: "Pivot Pattern",
+            sentences: [
+                "Many people assume that camels store water in their humps because they live in deserts.",
+                "However, biological research has confirmed that these humps are actually reservoirs of fatty tissue used for energy.",
+                "This fat allows them to survive for up to two weeks without food."
+            ],
+            correctIndex: 1,
+            explanation: "Look for the pivot word 'However'. The first sentence is a common myth; the second sentence corrects it with the truth."
+        },
+        // 2. Inductive (Examples -> Conclusion)
+        {
+            type: "Inductive (Specific → General)",
+            sentences: [
+                "In Tokyo, commuters rely almost exclusively on subways.",
+                "Meanwhile, in Amsterdam, bicycles dominate the streets as the primary mode of transport.",
+                "Therefore, urban transportation systems are heavily influenced by the unique infrastructure of each city."
+            ],
+            correctIndex: 2,
+            explanation: "The first two sentences are just examples. The last sentence uses 'Therefore' to draw a conclusion that covers both examples."
+        },
+        // 3. Deductive (Claim -> Details)
+        {
+            type: "Deductive (General → Specific)",
+            sentences: [
+                "Deforestation poses a catastrophic threat to global biodiversity and climate stability.",
+                "Trees absorb carbon dioxide, acting as the planet's lungs.",
+                "Specifically, the loss of the Amazon rainforest has accelerated global warming by 12%."
+            ],
+            correctIndex: 0,
+            explanation: "The first sentence is the big argument. The rest are just supporting details explaining *why* or giving specific percentages."
+        },
+        // 4. Q&A Pattern
+        {
+            type: "Question & Answer",
+            sentences: [
+                "Why do birds migrate thousands of kilometers every year?",
+                "The primary reason is to find abundant food sources that are unavailable in their breeding grounds during winter.",
+                "Temperature changes also play a secondary role in this behavior."
+            ],
+            correctIndex: 1,
+            explanation: "A question is never the main idea. The main idea is the direct answer to that question."
+        },
+        // 5. Funnel Pattern
+        {
+            type: "Funnel (Broad → Specific)",
+            sentences: [
+                "The internet has fundamentally changed how human beings communicate and gather information.",
+                "Social media, in particular, has revolutionized the way political campaigns reach younger voters.",
+                "Candidates now spend over 40% of their advertising budget on platforms like Instagram and TikTok."
+            ],
+            correctIndex: 1,
+            explanation: "Sentence 1 is too broad (the whole internet). Sentence 2 narrows it down to the real topic: 'Social Media in Politics'."
+        },
+        // 6. Inductive (Story/Data -> Lesson)
+        {
+            type: "Inductive (Data → Conclusion)",
+            sentences: [
+                "Yesterday, the stock market crashed by 500 points.",
+                "Additionally, housing prices have fallen for the third consecutive month.",
+                "Thus, all indicators suggest that the economy is entering a severe recession."
+            ],
+            correctIndex: 2,
+            explanation: "The first two sentences are pieces of data/evidence. The last sentence ('Thus...') acts as the umbrella conclusion."
+        },
+        // 7. Pivot (Fact vs Reality)
+        {
+            type: "Pivot (Claim vs Reality)",
+            sentences: [
+                "The tourism board claims that the island remains a pristine paradise for travelers.",
+                "However, local residents report that rising pollution levels have made the beaches unsafe.",
+                "Plastic waste now lines the shores where tourists used to swim."
+            ],
+            correctIndex: 1,
+            explanation: "The first sentence is a claim by an authority. The second sentence uses 'However' to introduce the counter-argument, which is the author's focus."
+        },
+        // 8. Deductive (Definition)
+        {
+            type: "Deductive (Definition → Example)",
+            sentences: [
+                "Inflation is defined as the rate at which the general level of prices for goods and services is rising.",
+                "For example, a loaf of bread that cost $1 last year might cost $1.10 today.",
+                "This decrease in purchasing power affects low-income families the most."
+            ],
+            correctIndex: 0,
+            explanation: "The first sentence defines the concept. The rest provide examples and effects. The definition is the umbrella idea."
+        },
+        // 9. Misconception Pattern
+        {
+            type: "Misconception vs Reality",
+            sentences: [
+                "It is a common belief that sharks are mindless man-eaters that attack anything in sight.",
+                "In reality, sharks are cautious predators that rarely attack humans unless provoked.",
+                "Most attacks are actually cases of mistaken identity."
+            ],
+            correctIndex: 1,
+            explanation: "The phrase 'It is a common belief' signals a myth. The phrase 'In reality' introduces the main idea."
+        },
+        // 10. Funnel (History)
+        {
+            type: "Funnel (Broad → Specific)",
+            sentences: [
+                "The 20th century was defined by numerous conflicts that reshaped the global map.",
+                "The Cold War, specifically, created a geopolitical divide that lasted for nearly five decades.",
+                "This period saw the rise of nuclear proliferation and proxy wars in Asia and Africa."
+            ],
+            correctIndex: 1,
+            explanation: "Sentence 1 is about the whole century (too broad). Sentence 2 focuses on the specific conflict (Cold War) the text is actually about."
+        }
+    ];
+
+    let currentQ = 0;
+    let score = 0;
+
+    function loadQuestion() {
+        const box = document.getElementById('quiz-box');
+        const feedback = document.getElementById('feedback');
+        const nextBtn = document.getElementById('next-btn');
+        const scoreDisplay = document.getElementById('score-display');
+        const progressBar = document.getElementById('progress-fill');
+
+        box.innerHTML = '';
+        feedback.className = 'hidden';
+        nextBtn.classList.add('hidden');
+        
+        // Update Progress
+        scoreDisplay.innerText = `Question ${currentQ + 1}/${questions.length}`;
+        progressBar.style.width = `${((currentQ + 1) / questions.length) * 100}%`;
+
+        const q = questions[currentQ];
+        
+        // Add pattern hint
+        const hint = document.createElement('div');
+        hint.innerHTML = `<small style="color:#64748b; font-weight:bold; text-transform:uppercase; margin-bottom:10px; display:block;">Pattern Hint: ${q.type}</small>`;
+        box.appendChild(hint);
+
+        q.sentences.forEach((text, index) => {
+            const div = document.createElement('div');
+            div.className = 'sentence';
+            div.innerText = text;
+            div.onclick = () => checkAnswer(div, index, q.correctIndex, q.explanation);
+            box.appendChild(div);
+        });
+    }
+
+    function checkAnswer(element, index, correct, explainText) {
+        // Prevent multiple clicks
+        if (document.querySelector('.sentence.correct') || document.querySelector('.sentence.wrong')) return;
+
+        const feedback = document.getElementById('feedback');
+        const nextBtn = document.getElementById('next-btn');
+        const sentences = document.querySelectorAll('.sentence');
+        
+        if (index === correct) {
+            element.classList.add('correct');
+            feedback.innerText = "✅ Correct! " + explainText;
+            feedback.style.color = "var(--success)";
+            score++;
+        } else {
+            element.classList.add('wrong');
+            sentences[correct].classList.add('correct'); // Show correct one
+            feedback.innerText = "❌ Not quite. " + explainText;
+            feedback.style.color = "var(--error)";
+        }
+        feedback.classList.remove('hidden');
+        nextBtn.classList.remove('hidden');
+        
+        // Check if last question
+        if (currentQ === questions.length - 1) {
+            nextBtn.innerText = "Finish Quiz";
+        }
+    }
+
+    function nextQuestion() {
+        if (currentQ < questions.length - 1) {
+            currentQ++;
+            loadQuestion();
+        } else {
+            // End of quiz
+            const box = document.getElementById('quiz-box');
+            box.innerHTML = `
+                <div style="text-align:center; padding:2rem;">
+                    <div class="icon" style="margin:0 auto 1rem auto;">🏆</div>
+                    <h3>Quiz Complete!</h3>
+                    <p>You scored <strong>${score} / ${questions.length}</strong></p>
+                    <button class="btn" onclick="location.reload()">Try Again</button>
+                </div>
+            `;
+            document.getElementById('feedback').classList.add('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+        }
+    }
+
+    // Initialize
+    loadQuestion();
+</script>
+
+</body>
+</html>
