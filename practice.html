@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Literasi Bahasa Inggris UTBK SNBT</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --accent: #f59e0b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --sidebar-width: 280px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        body { background-color: #f1f5f9; color: var(--dark); line-height: 1.6; }
+
+        /* --- LAYOUT --- */
+        .container { display: flex; min-height: 100vh; }
+        
+        .sidebar {
+            width: var(--sidebar-width);
+            background: white;
+            border-right: 1px solid #e2e8f0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 20px;
+            z-index: 100;
+        }
+
+        .main-content { 
+            flex: 1; 
+            padding: 40px; 
+            margin-left: var(--sidebar-width);
+            max-width: 1000px;
+        }
+
+        /* Mobile Layout */
+        @media(max-width: 768px) {
+            .sidebar { display: none; } /* Hide sidebar on mobile for simplicity in this demo */
+            .main-content { margin-left: 0; padding: 20px; }
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1 { color: var(--secondary); margin-bottom: 10px; font-size: 2rem; }
+        h2 { border-bottom: 3px solid var(--primary); padding-bottom: 10px; margin-top: 50px; margin-bottom: 25px; color: var(--dark); font-size: 1.5rem; }
+        h3 { color: var(--primary); margin-top: 25px; margin-bottom: 10px; font-size: 1.2rem; }
+        p, li { margin-bottom: 10px; font-size: 1rem; }
+        ul { margin-left: 20px; margin-bottom: 20px; }
+
+        /* --- COMPONENTS --- */
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 25px; }
+        
+        .box { padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 5px solid transparent; }
+        .box-tip { background: #eff6ff; border-color: var(--primary); }
+        .box-trap { background: #fef2f2; border-color: var(--danger); }
+        .box-ex { background: #f0fdf4; border-color: var(--success); }
+        
+        .box h4 { margin-bottom: 5px; font-weight: bold; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; }
+        .box-tip h4 { color: var(--primary); }
+        .box-trap h4 { color: var(--danger); }
+        .box-ex h4 { color: #15803d; }
+
+        .nav-link { display: block; padding: 12px; color: #64748b; text-decoration: none; border-radius: 8px; margin-bottom: 5px; cursor: pointer; transition: 0.2s; font-weight: 500;}
+        .nav-link:hover { background: #f1f5f9; color: var(--primary); }
+        .nav-link.active { background: #eff6ff; color: var(--primary); font-weight: bold; }
+
+        /* --- QUIZ STYLES --- */
+        .quiz-wrapper { margin-top: 20px; }
+        .q-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+        .q-nav-btn { width: 40px; height: 40px; border: 1px solid #cbd5e1; background: white; cursor: pointer; border-radius: 8px; font-weight: bold; color: #64748b; transition: 0.2s; }
+        .q-nav-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .q-nav-btn.active { background: var(--primary); color: white; border-color: var(--primary); transform: scale(1.1); }
+        .q-nav-btn.correct { background: var(--success); color: white; border-color: var(--success); }
+        .q-nav-btn.wrong { background: var(--danger); color: white; border-color: var(--danger); }
+
+        .text-panel { background: #f8fafc; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; max-height: 350px; overflow-y: auto; margin-bottom: 20px; font-family: 'Georgia', serif; line-height: 1.7; }
+        
+        .options-grid { display: flex; flex-direction: column; gap: 10px; }
+        .option-item { 
+            padding: 15px; 
+            border: 2px solid #e2e8f0; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            display: flex; 
+            align-items: center; 
+        }
+        .option-item:hover { border-color: var(--primary); background: #f8fafc; }
+        .option-item.correct { border-color: var(--success); background: #dcfce7; color: #14532d; }
+        .option-item.wrong { border-color: var(--danger); background: #fee2e2; color: #7f1d1d; }
+        .option-item.disabled { cursor: not-allowed; opacity: 0.8; }
+        
+        .feedback { margin-top: 20px; padding: 20px; border-radius: 8px; display: none; animation: fadeIn 0.3s; }
+        .feedback.correct { background: #dcfce7; border: 1px solid #86efac; color: #14532d; }
+        .feedback.wrong { background: #fee2e2; border: 1px solid #fca5a5; color: #7f1d1d; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <div style="padding-bottom: 20px; border-bottom: 1px solid #e2e8f0; margin-bottom: 20px;">
+        <h3 style="margin:0;">UTBK SNBT Prep</h3>
+        <small style="color:#64748b;">Full Material & Simulation</small>
+    </div>
+    <a class="nav-link" onclick="scrollToId('intro')">1. Intro & Hierarchy</a>
+    <a class="nav-link" onclick="scrollToId('macro')">2. Macro Skills (Ide Pokok)</a>
+    <a class="nav-link" onclick="scrollToId('author')">3. Tone & Purpose</a>
+    <a class="nav-link" onclick="scrollToId('reasoning')">4. Reasoning & Logic</a>
+    <a class="nav-link" onclick="scrollToId('vocab')">5. Vocab Survival</a>
+    <a class="nav-link" onclick="scrollToId('advanced')">6. Advanced & Missing 10%</a>
+    <a class="nav-link" onclick="scrollToId('antis')">7. What NOT to Study</a>
+    <a class="nav-link active" onclick="scrollToId('simulation')" style="margin-top: 20px; background: var(--dark); color: white;">Start Simulation (20 Q)</a>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+
+    <div id="intro" class="card" style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white;">
+        <h1 style="color:white;">Panduan Lengkap Literasi Bahasa Inggris</h1>
+        <p>Materi ini disusun berdasarkan pola soal UTBK SNBT terbaru. Ingat: Ini bukan tes grammar, ini adalah tes <strong>Logika</strong> dan <strong>Reading Comprehension</strong>.</p>
+    </div>
+
+    <!-- 1. HIERARCHY -->
+    <section id="hierarchy">
+        <h2>1. The Hierarchy of Skills (Piramida Keahlian)</h2>
+        <div class="card">
+            <p>Untuk menjawab soal tersulit, Anda harus menguasai dasarnya. Soal Literasi dibagi menjadi 3 level:</p>
+            <ul>
+                <li><strong>Level 1 (Macro):</strong> Memahami teks secara keseluruhan (Main Idea, Purpose).</li>
+                <li><strong>Level 2 (Micro):</strong> Mencari detail spesifik dan memahami kata (Specific Detail, Vocab).</li>
+                <li><strong>Level 3 (Reasoning/HOTS):</strong> Membaca yang tidak tertulis (Inference, Strengthening/Weakening).</li>
+            </ul>
+            <div class="box box-tip">
+                <h4>Mindset Shift</h4>
+                Jangan baca untuk menerjemahkan setiap kata. Bacalah untuk menemukan <strong>Argumen</strong> penulis.
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. MACRO SKILLS -->
+    <section id="macro">
+        <h2>2. Macro Skills: Main Idea & Scope</h2>
+        <div class="card">
+            <h3>Topic vs. Main Idea</h3>
+            <p>Banyak siswa tertukar antara Topik dan Ide Pokok.</p>
+            <ul>
+                <li><strong>Topic:</strong> Subjek (Kata Benda). Contoh: "AI Technology".</li>
+                <li><strong>Main Idea:</strong> Apa klaim penulis tentang subjek itu (Kalimat Utuh). Contoh: "AI Technology requires ethical regulation."</li>
+            </ul>
+
+            <div class="box box-trap">
+                <h4>The Scope Trap (Jebakan Ruang Lingkup)</h4>
+                <p>Jawaban salah biasanya berpola:</p>
+                <ul>
+                    <li><strong>Too Narrow (Terlalu Sempit):</strong> Hanya membahas isi satu paragraf (Detail), bukan seluruh teks.</li>
+                    <li><strong>Too Broad (Terlalu Luas):</strong> Membahas topik secara umum tapi melupakan fokus spesifik teks.</li>
+                </ul>
+            </div>
+            
+            <h3>Text Organization (Koherensi)</h3>
+            <p>Memahami hubungan antar paragraf:</p>
+            <ul>
+                <li><strong>Contradiction:</strong> Paragraf 2 membantah Paragraf 1 (Ciri: However, But).</li>
+                <li><strong>Elaboration:</strong> Paragraf 2 memberi contoh detail dari Paragraf 1.</li>
+                <li><strong>Causality:</strong> Paragraf 1 Sebab, Paragraf 2 Akibat.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 3. AUTHOR INTENT -->
+    <section id="author">
+        <h2>3. Author's Intent: Tone & Purpose</h2>
+        <div class="card">
+            <h3>Tone (Sikap Penulis)</h3>
+            <p>Gunakan <strong>Adjective Test</strong>: Apakah penulis emosional atau datar?</p>
+            <ul>
+                <li><strong>Objective/Neutral:</strong> Seperti reporter berita. Hanya fakta.</li>
+                <li><strong>Skeptical:</strong> Ragu-ragu ("It is unlikely...", "One must wonder...").</li>
+                <li><strong>Critical:</strong> Menilai buruk ("Disastrous", "Flawed").</li>
+                <li><strong>Supportive:</strong> Menilai baik ("Revolutionary", "Beneficial").</li>
+            </ul>
+
+            <h3>Purpose (Tujuan Penulis)</h3>
+            <p>Gunakan <strong>Verb Test</strong>: Apa yang dilakukan teks ini?</p>
+            <ul>
+                <li><strong>To Expose:</strong> Membongkar kebenaran/skandal.</li>
+                <li><strong>To Persuade/Advocate:</strong> Mengajak pembaca melakukan sesuatu.</li>
+                <li><strong>To Compare:</strong> Membandingkan dua hal (A vs B).</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 4. REASONING -->
+    <section id="reasoning">
+        <h2>4. Logical Reasoning (HOTS)</h2>
+        <div class="card">
+            <h3>Inference (Kesimpulan Tersirat)</h3>
+            <p>Jawaban tidak tertulis di teks, tapi harus disimpulkan secara logis.</p>
+            <div class="box box-ex">
+                <h4>The "Must Be True" Rule</h4>
+                <p>Jika teks berkata: "Kebanyakan orang suka kopi."</p>
+                <p><strong>Salah (Over-inference):</strong> "Orang benci teh." (Tidak ada bukti).</p>
+                <p><strong>Benar:</strong> "Kopi lebih populer daripada opsi lain."</p>
+            </div>
+
+            <h3>Strengthening & Weakening Arguments</h3>
+            <p>Soal tersulit. Anda harus menyerang atau mendukung hubungan antara <strong>Premise</strong> (Bukti) dan <strong>Conclusion</strong> (Kesimpulan).</p>
+            <ul>
+                <li><strong>To Weaken (Melemahkan):</strong> Cari fakta baru yang merusak logika penulis. Contoh: Jika argumennya "Belajar lama = Nilai Bagus", pelemahnya adalah "Belajar terlalu lama membuat otak lelah dan nilai turun."</li>
+                <li><strong>To Strengthen (Memperkuat):</strong> Cari bukti tambahan yang mendukung klaim.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 5. VOCABULARY -->
+    <section id="vocab">
+        <h2>5. Vocabulary Survival Strategies</h2>
+        <div class="card">
+            <p>Jangan panik jika tidak tahu arti kata. Gunakan trik ini:</p>
+            
+            <h3>1. The Algebra Method (Variabel X)</h3>
+            <p>Anggap kata sulit sebagai "X". Lihat hubungannya dengan kata lain. <br>
+            <em>"The heavy rain <strong>exacerbated</strong> the flood."</em> &rarr; Hujan deras membuat banjir [X]. Logikanya: Membuat banjir makin parah. Jadi Exacerbated = Memperburuk.</p>
+
+            <h3>2. Road Signs (Kata Transisi)</h3>
+            <p>Kata hubung memberi petunjuk arah logika:</p>
+            <ul>
+                <li><strong>BUT / HOWEVER / ALTHOUGH:</strong> Arah berubah (+ ke -).</li>
+                <li><strong>AND / MOREOVER:</strong> Arah sama (+ ke +).</li>
+            </ul>
+
+            <h3>3. Prefixes (Awalan Kata)</h3>
+            <ul>
+                <li><strong>Un-, In-, Dis-, Non-:</strong> TIDAK (Negative).</li>
+                <li><strong>Mal-:</strong> BURUK (Malfunction).</li>
+                <li><strong>Bene-:</strong> BAIK (Benefit).</li>
+                <li><strong>Re-:</strong> ULANG (Restart).</li>
+            </ul>
+
+            <h3>4. Connotation Filter (Positif/Negatif)</h3>
+            <p>Jika pilihan jawaban A, B, C artinya positif, dan D artinya negatif, kemungkinan besar D jawabannya (karena tidak mungkin ada 3 jawaban benar).</p>
+        </div>
+    </section>
+
+    <!-- 6. ADVANCED & MISSING -->
+    <section id="advanced">
+        <h2>6. Advanced & The "Missing" 10%</h2>
+        <div class="card">
+            <h3>Comparative Reading (Text A vs Text B)</h3>
+            <p>Anda diminta menjadi juri antara dua penulis.</p>
+            <ul>
+                <li>Cari benang merahnya: Apakah Text B membantah Text A? Apakah Text B memberi contoh kasus dari teori di Text A?</li>
+                <li><strong>Trik:</strong> Baca kalimat pertama dan terakhir dari KEDUA teks sebelum membaca isinya.</li>
+            </ul>
+
+            <h3>Reference (Rujukan Kata)</h3>
+            <p><em>"The scientists took samples. <strong>They</strong> were put in the fridge."</em></p>
+            <p>Siapa "They"? Scientists tidak masuk kulkas. Samples yang masuk. Gunakan logika objek.</p>
+        </div>
+    </section>
+
+    <!-- 7. ANTI-MATERIALS -->
+    <section id="antis">
+        <h2>7. What NOT to Study</h2>
+        <div class="card">
+            <div class="box box-trap">
+                <h4>JANGAN Pelajari Ini (Buang Waktu):</h4>
+                <ul>
+                    <li><strong>Grammar Rules Rumit:</strong> Tidak ada soal "Fill in the blank" tenses (Past tense, Perfect tense, dll).</li>
+                    <li><strong>Error Recognition:</strong> Tidak ada soal mencari kalimat yang salah secara tata bahasa.</li>
+                    <li><strong>Spelling & Punctuation:</strong> Tidak ada soal tanda baca.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- SIMULATION -->
+    <section id="simulation">
+        <h2>Simulasi UTBK SNBT (20 Questions)</h2>
+        <div class="card">
+            <div class="q-nav" id="quizNav"></div>
+            
+            <div class="quiz-wrapper">
+                <div class="text-panel">
+                    <strong id="textTitle" style="color:var(--secondary); display:block; margin-bottom:10px;">TEXT 1</strong>
+                    <div id="textContent"></div>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <h3 id="questionNum" style="margin-top:0;">Question 1</h3>
+                    <p id="questionText" style="font-size: 1.1rem; font-weight: 500;"></p>
+                </div>
+
+                <div class="options-grid" id="optionsArea">
+                    <!-- Options injected here -->
+                </div>
+
+                <div class="feedback" id="feedbackBox">
+                    <strong id="feedbackTitle">Rationale:</strong>
+                    <p id="feedbackText"></p>
+                </div>
+
+                <div style="margin-top: 30px; display: flex; justify-content: space-between;">
+                    <button onclick="navQuestion(-1)" style="padding: 10px 20px; border:none; background: #cbd5e1; border-radius: 5px; cursor: pointer;">Previous</button>
+                    <button onclick="navQuestion(1)" style="padding: 10px 20px; border:none; background: var(--dark); color: white; border-radius: 5px; cursor: pointer;">Next</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    // --- UTILITY ---
+    function scrollToId(id) {
+        document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // --- QUIZ DATA (FULL 20 QUESTIONS) ---
+    const quizData = [
+        {
+            text: "TEXT 1 (Questions 1-4)\nProcrastination is often mistakenly equated with laziness, but psychologists argue that it is fundamentally an emotional regulation problem, not a time management one. When we procrastinate, we are not avoiding work; we are avoiding the negative feelings associated with that work—boredom, anxiety, or insecurity. Our brains prioritize short-term mood repair over long-term goals. Consequently, strict schedules often fail to cure procrastination because they do not address the root cause: the inability to cope with difficult emotions. To effectively combat this, one must cultivate self-compassion and emotional awareness rather than relying solely on discipline.",
+            q: "1. What is the main idea of the passage?",
+            opts: [
+                { t: "Laziness is the primary cause of procrastination and can be cured by discipline.", c: false },
+                { t: "Procrastination is an emotional issue that requires psychological strategies, not just scheduling.", c: true, r: "Correct. The text defines the problem (emotional regulation) and suggests the solution (self-compassion/awareness)." },
+                { t: "Strict schedules are harmful to a person's mental health and well-being.", c: false },
+                { t: "The human brain is naturally wired to avoid all forms of work.", c: false },
+                { t: "Emotional awareness is the only skill needed for success in life.", c: false }
+            ]
+        },
+        {
+            text: "TEXT 1 (Questions 1-4)",
+            q: "2. According to the text, why do strict schedules often fail to stop procrastination?",
+            opts: [
+                { t: "Because they are too difficult to follow for lazy people.", c: false },
+                { t: "Because they increase the anxiety associated with the task.", c: false },
+                { t: "Because they ignore the emotional roots of the behavior.", c: true, r: "Correct. The text says schedules fail because 'they do not address the root cause: the inability to cope with difficult emotions'." },
+                { t: "Because they prioritize long-term goals over short-term mood.", c: false },
+                { t: "Because most people do not know how to make a proper schedule.", c: false }
+            ]
+        },
+        {
+            text: "TEXT 1 (Questions 1-4)",
+            q: "3. The phrase 'mood repair' in the text refers to:",
+            opts: [
+                { t: "The act of taking medication to fix depression.", c: false },
+                { t: "The brain's attempt to immediately feel better by avoiding stress.", c: true, r: "Correct. It refers to prioritizing short-term relief (feeling better now) over long-term goals." },
+                { t: "The long-term satisfaction of finishing a job.", c: false },
+                { t: "The process of organizing one's schedule to reduce work.", c: false },
+                { t: "A therapy technique used by psychologists.", c: false }
+            ]
+        },
+        {
+            text: "TEXT 1 (Questions 1-4)",
+            q: "4. What can be inferred about someone who uses self-compassion?",
+            opts: [
+                { t: "They will likely stop working altogether.", c: false },
+                { t: "They are more likely to overcome procrastination than someone who is strictly self-critical.", c: true, r: "Correct. The text suggests cultivating self-compassion is the effective way to combat the issue." },
+                { t: "They do not care about the quality of their work.", c: false },
+                { t: "They have more free time than others.", c: false },
+                { t: "They never experience boredom or anxiety.", c: false }
+            ]
+        },
+        {
+            text: "TEXT 2 (Questions 5-8)\nThe 'Great Pacific Garbage Patch' is often visualized as a floating island of trash, but this description is misleading. It is actually a vast region of the North Pacific Ocean where microplastics—tiny fragments of plastic smaller than 5mm—are concentrated by ocean currents. While large debris exists, the water often looks clear to the naked eye because the plastic is suspended just below the surface. This makes cleanup incredibly difficult; skimming the surface would miss much of the plastic while potentially harming marine life that floats near the top, such as plankton. Therefore, scientists emphasize that preventing plastic from entering the ocean is a far more viable strategy than trying to clean it up later.",
+            q: "5. The author mentions the 'floating island' visualization primarily to:",
+            opts: [
+                { t: "Confirm the severity of the pollution problem.", c: false },
+                { t: "Correct a common misconception about the nature of the garbage patch.", c: true, r: "Correct. The author cites the visualization only to call it 'misleading' and explain the reality." },
+                { t: "Suggest a potential location for a new landfill.", c: false },
+                { t: "Describe the appearance of the ocean from a satellite view.", c: false },
+                { t: "Argue that the problem is exaggerated by the media.", c: false }
+            ]
+        },
+        {
+            text: "TEXT 2 (Questions 5-8)",
+            q: "6. Why is cleaning up the patch described as 'incredibly difficult'?",
+            opts: [
+                { t: "The patch is located in international waters with no jurisdiction.", c: false },
+                { t: "The plastic is too heavy and sinks to the bottom of the ocean.", c: false },
+                { t: "The plastic is microscopic and mixed with vital marine life.", c: true, r: "Correct. The text mentions skimming would miss microplastics and harm plankton." },
+                { t: "There is not enough funding for ocean cleanup projects.", c: false },
+                { t: "The currents are too strong for ships to navigate.", c: false }
+            ]
+        },
+        {
+            text: "TEXT 2 (Questions 5-8)",
+            q: "7. Which statement would the author most likely agree with?",
+            opts: [
+                { t: "We should focus all our resources on building giant nets to catch surface trash.", c: false },
+                { t: "The ocean can naturally dissolve plastic over time without human intervention.", c: false },
+                { t: "Source reduction of plastic waste is superior to remediation efforts.", c: true, r: "Correct. This matches the conclusion: 'preventing plastic... is a far more viable strategy'." },
+                { t: "The garbage patch is not a significant environmental threat.", c: false },
+                { t: "Marine life has adapted to eat microplastics safely.", c: false }
+            ]
+        },
+        {
+            text: "TEXT 2 (Questions 5-8)",
+            q: "8. The word 'suspended' in the second sentence is closest in meaning to:",
+            opts: [
+                { t: "Cancelled", c: false },
+                { t: "Hanging or floating", c: true, r: "Correct. In a liquid context, suspended means floating within the fluid." },
+                { t: "Removed", c: false },
+                { t: "Punished", c: false },
+                { t: "Attached", c: false }
+            ]
+        },
+        {
+            text: "TEXT 3 (Questions 9-12)\n(1) The concept of 'Universal Basic Income' (UBI) proposes that all citizens receive a regular, unconditional sum of money from the government. (2) Proponents argue that UBI would alleviate poverty and provide a safety net for workers displaced by automation. (3) Critics, however, fear that it would disincentivize work and lead to labor shortages. (4) Results from pilot programs have been mixed; while some recipients used the funds to further their education, others reduced their working hours slightly. (5) Ultimately, the feasibility of UBI depends on the specific economic context of the country implementing it.",
+            q: "9. What is the relationship between Sentence 2 and Sentence 3?",
+            opts: [
+                { t: "Sentence 3 provides evidence for the claim in Sentence 2.", c: false },
+                { t: "Sentence 3 presents a counterargument to the view in Sentence 2.", c: true, r: "Correct. Sentence 2 gives the Pro view; Sentence 3 gives the Con view (signaled by 'however')." },
+                { t: "Sentence 3 repeats the information in Sentence 2 in different words.", c: false },
+                { t: "Sentence 3 explains the cause of the situation in Sentence 2.", c: false },
+                { t: "Sentence 3 dismisses the topic introduced in Sentence 2 as irrelevant.", c: false }
+            ]
+        },
+        {
+            text: "TEXT 3 (Questions 9-12)",
+            q: "10. Which of the following is NOT mentioned as a potential outcome of UBI?",
+            opts: [
+                { t: "Reduction in poverty.", c: false },
+                { t: "Workers quitting their jobs to travel the world.", c: true, r: "Correct. The text mentions 'reduced their working hours slightly' but not quitting to travel." },
+                { t: "Providing security against automation.", c: false },
+                { t: "People using money for education.", c: false },
+                { t: "A decrease in the motivation to work.", c: false }
+            ]
+        },
+        {
+            text: "TEXT 3 (Questions 9-12)",
+            q: "11. The word 'unconditional' in the first sentence implies that:",
+            opts: [
+                { t: "The money must be paid back.", c: false },
+                { t: "Recipients must meet strict requirements to get the money.", c: false },
+                { t: "The money is given without any requirements or strings attached.", c: true, r: "Correct. Unconditional means without conditions." },
+                { t: "The amount of money changes every month.", c: false },
+                { t: "Only the poorest citizens receive the money.", c: false }
+            ]
+        },
+        {
+            text: "TEXT 3 (Questions 9-12)",
+            q: "12. Based on the pilot program results (Sentence 4), which conclusion is most logical?",
+            opts: [
+                { t: "UBI definitely makes people lazy.", c: false },
+                { t: "UBI has no impact on people's lives.", c: false },
+                { t: "The impact of UBI on work behavior varies among individuals.", c: true, r: "Correct. The results are described as 'mixed', affecting different people differently." },
+                { t: "UBI is the perfect solution for every economy.", c: false },
+                { t: "Education is the only thing people spend UBI money on.", c: false }
+            ]
+        },
+        {
+            text: "TEXT 4 (Questions 13-16)\nAlgorithmic trading, where computers execute trades at high speeds based on pre-set criteria, now accounts for the majority of stock market activity. While this adds liquidity to the market, making it easier to buy and sell, it can also lead to 'flash crashes.' In these events, algorithms reacting to a minor dip can trigger a cascade of sell orders, causing prices to plummet within seconds. Regulators are struggling to keep pace with this technology, often implementing 'circuit breakers' that pause trading if prices drop too sharply.",
+            q: "13. What is the primary purpose of the text?",
+            opts: [
+                { t: "To encourage more people to use algorithmic trading.", c: false },
+                { t: "To explain the benefits and risks of high-speed computer trading.", c: true, r: "Correct. It mentions benefits (liquidity) and risks (flash crashes)." },
+                { t: "To blame regulators for the stock market crash.", c: false },
+                { t: "To suggest that human traders are better than computers.", c: false },
+                { t: "To define the term 'liquidity'.", c: false }
+            ]
+        },
+        {
+            text: "TEXT 4 (Questions 13-16)",
+            q: "14. What triggers a 'cascade of sell orders' in a flash crash?",
+            opts: [
+                { t: "Human traders panicking.", c: false },
+                { t: "Regulatory circuit breakers.", c: false },
+                { t: "Algorithms reacting to a minor price dip.", c: true, r: "Correct. Explicitly stated in the text." },
+                { t: "A lack of liquidity in the market.", c: false },
+                { t: "Computer viruses.", c: false }
+            ]
+        },
+        {
+            text: "TEXT 4 (Questions 13-16)",
+            q: "15. Which statement, if true, would WEAKEN the argument that algorithmic trading is dangerous?",
+            opts: [
+                { t: "Flash crashes have happened three times in the last decade.", c: false },
+                { t: "New algorithms are designed to stabilize prices when they detect a drop.", c: true, r: "Correct. If algorithms now stabilize prices, the argument that they cause crashes is weakened." },
+                { t: "Human traders are slower than computers.", c: false },
+                { t: "The stock market is open 24 hours a day.", c: false },
+                { t: "Regulators have banned all algorithmic trading.", c: false }
+            ]
+        },
+        {
+            text: "TEXT 4 (Questions 13-16)",
+            q: "16. The word 'plummet' is closest in meaning to:",
+            opts: [
+                { t: "Fluctuate", c: false },
+                { t: "Drop sharply", c: true, r: "Correct. Plummet means to fall straight down." },
+                { t: "Rise slowly", c: false },
+                { t: "Stabilize", c: false },
+                { t: "Disappear", c: false }
+            ]
+        },
+        {
+            text: "TEXT 5 (Questions 17-20)\n**Text A:**\nThe rise of 'influencer marketing' has democratized advertising. Small businesses no longer need million-dollar budgets for TV spots; they can partner with micro-influencers to reach niche audiences effectively. This peer-to-peer model feels more authentic to consumers, who trust a recommendation from a personality they follow over a faceless corporate ad.\n\n**Text B:**\nWhile influencer marketing appears authentic, it is often unregulated. Many influencers fail to disclose paid partnerships, leading their followers to believe they are receiving a genuine, unbiased recommendation. This blurring of lines between entertainment and commercialism exploits the parasocial relationship between creator and fan, raising ethical concerns about consumer manipulation.",
+            q: "17. Which statement best describes the relationship between Text A and Text B?",
+            opts: [
+                { t: "Text B provides specific examples to support Text A.", c: false },
+                { t: "Text B contradicts the effectiveness of the marketing model described in Text A.", c: false },
+                { t: "Text A focuses on the economic benefits, while Text B highlights the ethical risks.", c: true, r: "Correct. Text A discusses cost/access (economic). Text B discusses deception/trust (ethical)." },
+                { t: "Text A and Text B both argue that influencer marketing should be banned.", c: false },
+                { t: "Text A discusses the history of advertising, while Text B discusses the future.", c: false }
+            ]
+        },
+        {
+            text: "TEXT 5 (Questions 17-20)",
+            q: "18. Both texts agree that:",
+            opts: [
+                { t: "Influencer marketing is expensive.", c: false },
+                { t: "Consumers trust influencers more than traditional ads.", c: true, r: "Correct. Text A says it 'feels authentic'. Text B implies trust is what is being 'exploited'." },
+                { t: "Influencers always disclose their payments.", c: false },
+                { t: "TV spots are the best way to advertise.", c: false },
+                { t: "Small businesses should avoid social media.", c: false }
+            ]
+        },
+        {
+            text: "TEXT 5 (Questions 17-20)",
+            q: "19. In Text B, the term 'parasocial relationship' refers to:",
+            opts: [
+                { t: "A business partnership between two companies.", c: false },
+                { t: "The one-sided bond where a fan feels they know the creator personally.", c: true, r: "Correct. Context implies the bond between 'creator and fan'." },
+                { t: "A legal contract for advertising.", c: false },
+                { t: "The competition between different influencers.", c: false },
+                { t: "A type of social media algorithm.", c: false }
+            ]
+        },
+        {
+            text: "TEXT 5 (Questions 17-20)",
+            q: "20. What is the author of Text B's main criticism?",
+            opts: [
+                { t: "Influencers are too expensive for small businesses.", c: false },
+                { t: "The marketing model lacks transparency and exploits user trust.", c: true, r: "Correct. Summarizes the issue of undisclosed payments and manipulation." },
+                { t: "Social media platforms are technically unstable.", c: false },
+                { t: "Consumers are too smart to be tricked by ads.", c: false },
+                { t: "Traditional advertising is dead.", c: false }
+            ]
+        }
+    ];
+
+    // --- QUIZ ENGINE ---
+    let currentIdx = 0;
+    let answers = new Array(quizData.length).fill(null); // Stores user choices
+
+    function initQuiz() {
+        const nav = document.getElementById('quizNav');
+        nav.innerHTML = '';
+        quizData.forEach((_, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'q-nav-btn';
+            btn.innerText = i + 1;
+            btn.onclick = () => loadQ(i);
+            btn.id = `nav-${i}`;
+            nav.appendChild(btn);
+        });
+        loadQ(0);
+    }
+
+    function loadQ(index) {
+        currentIdx = index;
+        const q = quizData[index];
+        
+        // Update Text
+        document.getElementById('textTitle').innerText = q.text.split('\n')[0];
+        document.getElementById('textContent').innerText = q.text;
+        
+        // Update Question
+        document.getElementById('questionNum').innerText = `Question ${index + 1}`;
+        document.getElementById('questionText').innerText = q.q;
+
+        // Render Options (Randomize positions)
+        const optArea = document.getElementById('optionsArea');
+        optArea.innerHTML = '';
+        document.getElementById('feedbackBox').style.display = 'none';
+
+        // Update Nav State
+        document.querySelectorAll('.q-nav-btn').forEach((b, i) => {
+            b.classList.remove('active');
+            if(i === index) b.classList.add('active');
+        });
+
+        // Prepare options for display
+        let displayOpts = q.opts.map((opt, i) => ({ ...opt, origIdx: i }));
+        // Only shuffle if not already answered (to maintain position stability after answering)
+        // Actually, for a consistent UI, we usually seed shuffle, but here we'll shuffle once per load
+        // NOTE: To follow user request "Randomized position", we shuffle every time.
+        // However, if already answered, we must find the answered one.
+        shuffleArray(displayOpts);
+
+        const isAnswered = answers[index] !== null;
+
+        displayOpts.forEach(opt => {
+            const div = document.createElement('div');
+            div.className = 'option-item';
+            div.innerText = opt.t;
+            
+            if (isAnswered) {
+                div.classList.add('disabled');
+                if (opt.c) div.classList.add('correct');
+                if (answers[index] === opt.origIdx && !opt.c) div.classList.add('wrong');
+            } else {
+                div.onclick = () => handleAnswer(index, opt.origIdx, opt.c, opt.r);
+            }
+            optArea.appendChild(div);
+        });
+
+        if (isAnswered) {
+            const correctOpt = q.opts.find(o => o.c);
+            const userOpt = q.opts[answers[index]];
+            showFeedback(userOpt.c, correctOpt.r || "Correct answer.");
+        }
+    }
+
+    function handleAnswer(qIdx, optIdx, isCorrect, rationale) {
+        if (answers[qIdx] !== null) return;
+        answers[qIdx] = optIdx;
+        
+        // Update Nav Status
+        const navBtn = document.getElementById(`nav-${qIdx}`);
+        navBtn.classList.add(isCorrect ? 'correct' : 'wrong');
+
+        loadQ(qIdx); // Reload to show results
+    }
+
+    function showFeedback(isCorrect, text) {
+        const box = document.getElementById('feedbackBox');
+        box.style.display = 'block';
+        box.className = `feedback ${isCorrect ? 'correct' : 'wrong'}`;
+        document.getElementById('feedbackTitle').innerText = isCorrect ? "Correct!" : "Incorrect.";
+        document.getElementById('feedbackText').innerText = text;
+    }
+
+    function navQuestion(dir) {
+        const next = currentIdx + dir;
+        if (next >= 0 && next < quizData.length) loadQ(next);
+    }
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // Start
+    initQuiz();
+</script>
+
+</body>
+</html>
