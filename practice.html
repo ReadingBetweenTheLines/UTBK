@@ -4,104 +4,217 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Master Literasi Bahasa Inggris UTBK SNBT</title>
+    <!-- Adding Google Fonts for a more polished, non-AI look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #2563eb;
-            --secondary: #1e40af;
-            --accent: #f59e0b;
-            --light: #f8fafc;
-            --dark: #1e293b;
-            --success: #10b981;
-            --danger: #ef4444;
+            /* Softer, "Academic" Palette */
+            --primary: #335c67;      /* Muted Teal/Slate */
+            --primary-hover: #234048;
+            --secondary: #e09f3e;    /* Muted Gold/Mustard */
+            --bg-body: #fdfcf8;      /* Warm Off-White (Ivory) */
+            --bg-sidebar: #f4f1ea;   /* Warm Gray/Beige */
+            --text-main: #2d3748;    /* Softer Dark Blue-Gray */
+            --text-muted: #718096;
+            
+            --success: #669e7e;      /* Muted Green */
+            --success-bg: #e6f4ea;
+            --danger: #e56b6f;       /* Muted Red/Coral */
+            --danger-bg: #ffe5e6;
+            
             --sidebar-width: 280px;
+            --radius: 12px;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         
-        body { background-color: #f1f5f9; color: var(--dark); line-height: 1.6; }
+        body { 
+            background-color: var(--bg-body); 
+            color: var(--text-main); 
+            line-height: 1.7; 
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
 
         /* --- LAYOUT --- */
         .container { display: flex; min-height: 100vh; }
         
         .sidebar {
             width: var(--sidebar-width);
-            background: white;
-            border-right: 1px solid #e2e8f0;
+            background: var(--bg-sidebar);
+            border-right: 1px solid rgba(0,0,0,0.05);
             position: fixed;
             height: 100vh;
             overflow-y: auto;
-            padding: 20px;
+            padding: 30px 20px;
             z-index: 100;
         }
 
         .main-content { 
             flex: 1; 
-            padding: 40px; 
+            padding: 50px; 
             margin-left: var(--sidebar-width);
-            max-width: 1000px;
+            max-width: 900px; /* Slightly narrower for reading comfort */
         }
 
         /* Mobile Layout */
         @media(max-width: 768px) {
-            .sidebar { display: none; } /* Hide sidebar on mobile for simplicity in this demo */
+            .sidebar { display: none; }
             .main-content { margin-left: 0; padding: 20px; }
         }
 
         /* --- TYPOGRAPHY --- */
-        h1 { color: var(--secondary); margin-bottom: 10px; font-size: 2rem; }
-        h2 { border-bottom: 3px solid var(--primary); padding-bottom: 10px; margin-top: 50px; margin-bottom: 25px; color: var(--dark); font-size: 1.5rem; }
-        h3 { color: var(--primary); margin-top: 25px; margin-bottom: 10px; font-size: 1.2rem; }
-        p, li { margin-bottom: 10px; font-size: 1rem; }
-        ul { margin-left: 20px; margin-bottom: 20px; }
+        h1, h2, h3 { font-family: 'Lora', serif; font-weight: 600; color: var(--primary); }
+        
+        h1 { font-size: 2.2rem; margin-bottom: 15px; letter-spacing: -0.02em; }
+        h2 { 
+            border-bottom: 2px solid rgba(51, 92, 103, 0.2); 
+            padding-bottom: 15px; 
+            margin-top: 60px; 
+            margin-bottom: 30px; 
+            font-size: 1.75rem; 
+        }
+        h3 { 
+            font-size: 1.3rem; 
+            margin-top: 30px; 
+            margin-bottom: 15px; 
+            color: var(--primary-hover);
+        }
+        p, li { margin-bottom: 15px; font-size: 1.05rem; color: #4a5568; }
+        ul { margin-left: 20px; margin-bottom: 25px; }
+        
+        strong { color: var(--primary); font-weight: 600; }
 
         /* --- COMPONENTS --- */
-        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 25px; }
+        .card { 
+            background: white; 
+            padding: 40px; 
+            border-radius: var(--radius); 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03); 
+            border: 1px solid rgba(0,0,0,0.02);
+            margin-bottom: 30px; 
+            transition: transform 0.2s ease;
+        }
         
-        .box { padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 5px solid transparent; }
-        .box-tip { background: #eff6ff; border-color: var(--primary); }
-        .box-trap { background: #fef2f2; border-color: var(--danger); }
-        .box-ex { background: #f0fdf4; border-color: var(--success); }
+        .box { padding: 20px 25px; border-radius: var(--radius); margin: 25px 0; border-left: 4px solid transparent; }
+        .box-tip { background: #eef6f8; border-color: var(--primary); }
+        .box-trap { background: var(--danger-bg); border-color: var(--danger); }
+        .box-ex { background: var(--success-bg); border-color: var(--success); }
         
-        .box h4 { margin-bottom: 5px; font-weight: bold; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; }
+        .box h4 { 
+            margin-bottom: 8px; 
+            font-family: 'Inter', sans-serif;
+            font-weight: 700; 
+            text-transform: uppercase; 
+            font-size: 0.8rem; 
+            letter-spacing: 0.05em; 
+        }
         .box-tip h4 { color: var(--primary); }
         .box-trap h4 { color: var(--danger); }
-        .box-ex h4 { color: #15803d; }
+        .box-ex h4 { color: var(--success); }
 
-        .nav-link { display: block; padding: 12px; color: #64748b; text-decoration: none; border-radius: 8px; margin-bottom: 5px; cursor: pointer; transition: 0.2s; font-weight: 500;}
-        .nav-link:hover { background: #f1f5f9; color: var(--primary); }
-        .nav-link.active { background: #eff6ff; color: var(--primary); font-weight: bold; }
+        .nav-link { 
+            display: block; 
+            padding: 12px 15px; 
+            color: var(--text-muted); 
+            text-decoration: none; 
+            border-radius: 8px; 
+            margin-bottom: 8px; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        .nav-link:hover { background: rgba(0,0,0,0.03); color: var(--primary); }
+        .nav-link.active { background: white; color: var(--primary); font-weight: 600; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 
         /* --- QUIZ STYLES --- */
-        .quiz-wrapper { margin-top: 20px; }
-        .q-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
-        .q-nav-btn { width: 40px; height: 40px; border: 1px solid #cbd5e1; background: white; cursor: pointer; border-radius: 8px; font-weight: bold; color: #64748b; transition: 0.2s; }
+        .quiz-wrapper { margin-top: 30px; }
+        .q-nav { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 25px; }
+        .q-nav-btn { 
+            width: 40px; 
+            height: 40px; 
+            border: 1px solid #e2e8f0; 
+            background: white; 
+            cursor: pointer; 
+            border-radius: 50%; /* Rounded for softer look */
+            font-weight: 600; 
+            color: var(--text-muted); 
+            transition: all 0.2s; 
+            font-family: 'Inter', sans-serif;
+        }
         .q-nav-btn:hover { border-color: var(--primary); color: var(--primary); }
-        .q-nav-btn.active { background: var(--primary); color: white; border-color: var(--primary); transform: scale(1.1); }
+        .q-nav-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 6px rgba(51, 92, 103, 0.3); transform: translateY(-2px); }
         .q-nav-btn.correct { background: var(--success); color: white; border-color: var(--success); }
         .q-nav-btn.wrong { background: var(--danger); color: white; border-color: var(--danger); }
 
-        .text-panel { background: #f8fafc; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; max-height: 350px; overflow-y: auto; margin-bottom: 20px; font-family: 'Georgia', serif; line-height: 1.7; }
-        
-        .options-grid { display: flex; flex-direction: column; gap: 10px; }
-        .option-item { 
-            padding: 15px; 
-            border: 2px solid #e2e8f0; 
+        .text-panel { 
+            background: #fff; 
+            padding: 30px; 
+            border: 1px solid #e2e8f0; 
+            border-left: 4px solid var(--secondary);
             border-radius: 8px; 
+            max-height: 400px; 
+            overflow-y: auto; 
+            margin-bottom: 30px; 
+            font-family: 'Lora', serif; 
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #2d3748;
+        }
+        
+        .options-grid { display: flex; flex-direction: column; gap: 12px; }
+        .option-item { 
+            padding: 18px 20px; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 10px; 
             cursor: pointer; 
             transition: all 0.2s; 
             display: flex; 
             align-items: center; 
+            background: white;
+            font-size: 1rem;
         }
-        .option-item:hover { border-color: var(--primary); background: #f8fafc; }
-        .option-item.correct { border-color: var(--success); background: #dcfce7; color: #14532d; }
-        .option-item.wrong { border-color: var(--danger); background: #fee2e2; color: #7f1d1d; }
-        .option-item.disabled { cursor: not-allowed; opacity: 0.8; }
+        .option-item:hover { border-color: var(--primary); background: #f8fafc; transform: translateX(5px); }
+        .option-item.correct { border-color: var(--success); background: var(--success-bg); color: #065f46; font-weight: 500; }
+        .option-item.wrong { border-color: var(--danger); background: var(--danger-bg); color: #991b1b; }
+        .option-item.disabled { cursor: default; }
         
-        .feedback { margin-top: 20px; padding: 20px; border-radius: 8px; display: none; animation: fadeIn 0.3s; }
-        .feedback.correct { background: #dcfce7; border: 1px solid #86efac; color: #14532d; }
-        .feedback.wrong { background: #fee2e2; border: 1px solid #fca5a5; color: #7f1d1d; }
+        .feedback { 
+            margin-top: 25px; 
+            padding: 20px; 
+            border-radius: var(--radius); 
+            display: none; 
+            animation: fadeIn 0.4s ease-out; 
+            border: 1px solid transparent;
+        }
+        .feedback.correct { background: var(--success-bg); border-color: var(--success); color: #064e3b; }
+        .feedback.wrong { background: var(--danger-bg); border-color: var(--danger); color: #7f1d1d; }
+
+        .btn-control {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+        }
+        .btn-prev { background: #e2e8f0; color: #4a5568; }
+        .btn-prev:hover { background: #cbd5e1; }
+        .btn-next { background: var(--primary); color: white; box-shadow: 0 4px 6px rgba(51, 92, 103, 0.25); }
+        .btn-next:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 6px 8px rgba(51, 92, 103, 0.3); }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Custom Scrollbar for text panel */
+        .text-panel::-webkit-scrollbar { width: 8px; }
+        .text-panel::-webkit-scrollbar-track { background: #f1f1f1; }
+        .text-panel::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .text-panel::-webkit-scrollbar-thumb:hover { background: #a0aec0; }
 
     </style>
 </head>
@@ -109,37 +222,39 @@
 
 <!-- SIDEBAR -->
 <div class="sidebar">
-    <div style="padding-bottom: 20px; border-bottom: 1px solid #e2e8f0; margin-bottom: 20px;">
-        <h3 style="margin:0;">UTBK SNBT Prep</h3>
-        <small style="color:#64748b;">Full Material & Simulation</small>
+    <div style="padding-bottom: 30px; margin-bottom: 20px;">
+        <h3 style="margin:0; font-size: 1.4rem; color: var(--primary);">UTBK Prep</h3>
+        <small style="color:var(--text-muted); font-family: 'Inter', sans-serif;">English Literacy Masterclass</small>
     </div>
-    <a class="nav-link" onclick="scrollToId('intro')">1. Intro & Hierarchy</a>
-    <a class="nav-link" onclick="scrollToId('macro')">2. Macro Skills (Ide Pokok)</a>
+    <a class="nav-link" onclick="scrollToId('intro')">1. Introduction</a>
+    <a class="nav-link" onclick="scrollToId('macro')">2. Macro Skills</a>
     <a class="nav-link" onclick="scrollToId('author')">3. Tone & Purpose</a>
-    <a class="nav-link" onclick="scrollToId('reasoning')">4. Reasoning & Logic</a>
-    <a class="nav-link" onclick="scrollToId('vocab')">5. Vocab Survival</a>
-    <a class="nav-link" onclick="scrollToId('advanced')">6. Advanced & Missing 10%</a>
-    <a class="nav-link" onclick="scrollToId('antis')">7. What NOT to Study</a>
-    <a class="nav-link active" onclick="scrollToId('simulation')" style="margin-top: 20px; background: var(--dark); color: white;">Start Simulation (20 Q)</a>
+    <a class="nav-link" onclick="scrollToId('reasoning')">4. Logical Reasoning</a>
+    <a class="nav-link" onclick="scrollToId('vocab')">5. Vocabulary Strategy</a>
+    <a class="nav-link" onclick="scrollToId('advanced')">6. Advanced Tips</a>
+    <a class="nav-link" onclick="scrollToId('antis')">7. What to Ignore</a>
+    <div style="margin-top: 30px; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 20px;">
+        <a class="nav-link active" onclick="scrollToId('simulation')" style="background: var(--primary); color: white; text-align: center; box-shadow: 0 4px 10px rgba(51, 92, 103, 0.3);">Start Simulation</a>
+    </div>
 </div>
 
 <!-- MAIN CONTENT -->
 <div class="main-content">
 
-    <div id="intro" class="card" style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white;">
-        <h1 style="color:white;">Panduan Lengkap Literasi Bahasa Inggris</h1>
-        <p>Materi ini disusun berdasarkan pola soal UTBK SNBT terbaru. Ingat: Ini bukan tes grammar, ini adalah tes <strong>Logika</strong> dan <strong>Reading Comprehension</strong>.</p>
+    <div id="intro" class="card" style="background: var(--primary); color: white; border: none;">
+        <h1 style="color:white; margin-top: 0;">Master Literasi Bahasa Inggris</h1>
+        <p style="color: rgba(255,255,255,0.9); font-size: 1.1rem;">Panduan komprehensif untuk menaklukkan UTBK SNBT. Fokus pada Logika dan Pemahaman Bacaan, bukan sekadar hafalan.</p>
     </div>
 
     <!-- 1. HIERARCHY -->
     <section id="hierarchy">
-        <h2>1. The Hierarchy of Skills (Piramida Keahlian)</h2>
+        <h2>1. The Hierarchy of Skills</h2>
         <div class="card">
             <p>Untuk menjawab soal tersulit, Anda harus menguasai dasarnya. Soal Literasi dibagi menjadi 3 level:</p>
-            <ul>
-                <li><strong>Level 1 (Macro):</strong> Memahami teks secara keseluruhan (Main Idea, Purpose).</li>
-                <li><strong>Level 2 (Micro):</strong> Mencari detail spesifik dan memahami kata (Specific Detail, Vocab).</li>
-                <li><strong>Level 3 (Reasoning/HOTS):</strong> Membaca yang tidak tertulis (Inference, Strengthening/Weakening).</li>
+            <ul style="list-style-type: none; padding-left: 0;">
+                <li style="margin-bottom: 12px; padding-left: 20px; border-left: 3px solid var(--secondary);"><strong>Level 1 (Macro):</strong> Memahami teks secara keseluruhan (Main Idea, Purpose).</li>
+                <li style="margin-bottom: 12px; padding-left: 20px; border-left: 3px solid var(--secondary);"><strong>Level 2 (Micro):</strong> Mencari detail spesifik dan memahami kata (Specific Detail, Vocab).</li>
+                <li style="margin-bottom: 12px; padding-left: 20px; border-left: 3px solid var(--secondary);"><strong>Level 3 (Reasoning/HOTS):</strong> Membaca yang tidak tertulis (Inference, Strengthening/Weakening).</li>
             </ul>
             <div class="box box-tip">
                 <h4>Mindset Shift</h4>
@@ -293,13 +408,13 @@
             
             <div class="quiz-wrapper">
                 <div class="text-panel">
-                    <strong id="textTitle" style="color:var(--secondary); display:block; margin-bottom:10px;">TEXT 1</strong>
+                    <strong id="textTitle" style="color:var(--primary); display:block; margin-bottom:15px; font-family: 'Inter', sans-serif; font-size: 0.9rem; letter-spacing: 0.05em; text-transform: uppercase;">TEXT 1</strong>
                     <div id="textContent"></div>
                 </div>
 
-                <div style="margin-bottom: 20px;">
-                    <h3 id="questionNum" style="margin-top:0;">Question 1</h3>
-                    <p id="questionText" style="font-size: 1.1rem; font-weight: 500;"></p>
+                <div style="margin-bottom: 25px;">
+                    <h3 id="questionNum" style="margin-top:0; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Question 1</h3>
+                    <p id="questionText" style="font-size: 1.2rem; font-weight: 500; font-family: 'Lora', serif; color: var(--text-main);"></p>
                 </div>
 
                 <div class="options-grid" id="optionsArea">
@@ -307,13 +422,13 @@
                 </div>
 
                 <div class="feedback" id="feedbackBox">
-                    <strong id="feedbackTitle">Rationale:</strong>
-                    <p id="feedbackText"></p>
+                    <strong id="feedbackTitle" style="display:block; margin-bottom: 5px;">Rationale:</strong>
+                    <p id="feedbackText" style="margin:0;"></p>
                 </div>
 
-                <div style="margin-top: 30px; display: flex; justify-content: space-between;">
-                    <button onclick="navQuestion(-1)" style="padding: 10px 20px; border:none; background: #cbd5e1; border-radius: 5px; cursor: pointer;">Previous</button>
-                    <button onclick="navQuestion(1)" style="padding: 10px 20px; border:none; background: var(--dark); color: white; border-radius: 5px; cursor: pointer;">Next</button>
+                <div style="margin-top: 40px; display: flex; justify-content: space-between; border-top: 1px solid #e2e8f0; padding-top: 20px;">
+                    <button onclick="navQuestion(-1)" class="btn-control btn-prev">Previous Question</button>
+                    <button onclick="navQuestion(1)" class="btn-control btn-next">Next Question</button>
                 </div>
             </div>
         </div>
@@ -327,10 +442,22 @@
         document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
     }
 
+    // --- TEXT CONTENT CONSTANTS ---
+    const TEXT_1 = "Procrastination is often mistakenly equated with laziness, but psychologists argue that it is fundamentally an emotional regulation problem, not a time management one. When we procrastinate, we are not avoiding work; we are avoiding the negative feelings associated with that work—boredom, anxiety, or insecurity. Our brains prioritize short-term mood repair over long-term goals. Consequently, strict schedules often fail to cure procrastination because they do not address the root cause: the inability to cope with difficult emotions. To effectively combat this, one must cultivate self-compassion and emotional awareness rather than relying solely on discipline.";
+    
+    const TEXT_2 = "The 'Great Pacific Garbage Patch' is often visualized as a floating island of trash, but this description is misleading. It is actually a vast region of the North Pacific Ocean where microplastics—tiny fragments of plastic smaller than 5mm—are concentrated by ocean currents. While large debris exists, the water often looks clear to the naked eye because the plastic is suspended just below the surface. This makes cleanup incredibly difficult; skimming the surface would miss much of the plastic while potentially harming marine life that floats near the top, such as plankton. Therefore, scientists emphasize that preventing plastic from entering the ocean is a far more viable strategy than trying to clean it up later.";
+
+    const TEXT_3 = "(1) The concept of 'Universal Basic Income' (UBI) proposes that all citizens receive a regular, unconditional sum of money from the government. (2) Proponents argue that UBI would alleviate poverty and provide a safety net for workers displaced by automation. (3) Critics, however, fear that it would disincentivize work and lead to labor shortages. (4) Results from pilot programs have been mixed; while some recipients used the funds to further their education, others reduced their working hours slightly. (5) Ultimately, the feasibility of UBI depends on the specific economic context of the country implementing it.";
+
+    const TEXT_4 = "Algorithmic trading, where computers execute trades at high speeds based on pre-set criteria, now accounts for the majority of stock market activity. While this adds liquidity to the market, making it easier to buy and sell, it can also lead to 'flash crashes.' In these events, algorithms reacting to a minor dip can trigger a cascade of sell orders, causing prices to plummet within seconds. Regulators are struggling to keep pace with this technology, often implementing 'circuit breakers' that pause trading if prices drop too sharply.";
+
+    const TEXT_5 = "**Text A:**\nThe rise of 'influencer marketing' has democratized advertising. Small businesses no longer need million-dollar budgets for TV spots; they can partner with micro-influencers to reach niche audiences effectively. This peer-to-peer model feels more authentic to consumers, who trust a recommendation from a personality they follow over a faceless corporate ad.\n\n**Text B:**\nWhile influencer marketing appears authentic, it is often unregulated. Many influencers fail to disclose paid partnerships, leading their followers to believe they are receiving a genuine, unbiased recommendation. This blurring of lines between entertainment and commercialism exploits the parasocial relationship between creator and fan, raising ethical concerns about consumer manipulation.";
+
     // --- QUIZ DATA (FULL 20 QUESTIONS) ---
     const quizData = [
         {
-            text: "TEXT 1 (Questions 1-4)\nProcrastination is often mistakenly equated with laziness, but psychologists argue that it is fundamentally an emotional regulation problem, not a time management one. When we procrastinate, we are not avoiding work; we are avoiding the negative feelings associated with that work—boredom, anxiety, or insecurity. Our brains prioritize short-term mood repair over long-term goals. Consequently, strict schedules often fail to cure procrastination because they do not address the root cause: the inability to cope with difficult emotions. To effectively combat this, one must cultivate self-compassion and emotional awareness rather than relying solely on discipline.",
+            text: TEXT_1,
+            title: "TEXT 1 (Questions 1-4)",
             q: "1. What is the main idea of the passage?",
             opts: [
                 { t: "Laziness is the primary cause of procrastination and can be cured by discipline.", c: false },
@@ -341,7 +468,8 @@
             ]
         },
         {
-            text: "TEXT 1 (Questions 1-4)",
+            text: TEXT_1,
+            title: "TEXT 1 (Questions 1-4)",
             q: "2. According to the text, why do strict schedules often fail to stop procrastination?",
             opts: [
                 { t: "Because they are too difficult to follow for lazy people.", c: false },
@@ -352,7 +480,8 @@
             ]
         },
         {
-            text: "TEXT 1 (Questions 1-4)",
+            text: TEXT_1,
+            title: "TEXT 1 (Questions 1-4)",
             q: "3. The phrase 'mood repair' in the text refers to:",
             opts: [
                 { t: "The act of taking medication to fix depression.", c: false },
@@ -363,7 +492,8 @@
             ]
         },
         {
-            text: "TEXT 1 (Questions 1-4)",
+            text: TEXT_1,
+            title: "TEXT 1 (Questions 1-4)",
             q: "4. What can be inferred about someone who uses self-compassion?",
             opts: [
                 { t: "They will likely stop working altogether.", c: false },
@@ -374,7 +504,8 @@
             ]
         },
         {
-            text: "TEXT 2 (Questions 5-8)\nThe 'Great Pacific Garbage Patch' is often visualized as a floating island of trash, but this description is misleading. It is actually a vast region of the North Pacific Ocean where microplastics—tiny fragments of plastic smaller than 5mm—are concentrated by ocean currents. While large debris exists, the water often looks clear to the naked eye because the plastic is suspended just below the surface. This makes cleanup incredibly difficult; skimming the surface would miss much of the plastic while potentially harming marine life that floats near the top, such as plankton. Therefore, scientists emphasize that preventing plastic from entering the ocean is a far more viable strategy than trying to clean it up later.",
+            text: TEXT_2,
+            title: "TEXT 2 (Questions 5-8)",
             q: "5. The author mentions the 'floating island' visualization primarily to:",
             opts: [
                 { t: "Confirm the severity of the pollution problem.", c: false },
@@ -385,7 +516,8 @@
             ]
         },
         {
-            text: "TEXT 2 (Questions 5-8)",
+            text: TEXT_2,
+            title: "TEXT 2 (Questions 5-8)",
             q: "6. Why is cleaning up the patch described as 'incredibly difficult'?",
             opts: [
                 { t: "The patch is located in international waters with no jurisdiction.", c: false },
@@ -396,7 +528,8 @@
             ]
         },
         {
-            text: "TEXT 2 (Questions 5-8)",
+            text: TEXT_2,
+            title: "TEXT 2 (Questions 5-8)",
             q: "7. Which statement would the author most likely agree with?",
             opts: [
                 { t: "We should focus all our resources on building giant nets to catch surface trash.", c: false },
@@ -407,7 +540,8 @@
             ]
         },
         {
-            text: "TEXT 2 (Questions 5-8)",
+            text: TEXT_2,
+            title: "TEXT 2 (Questions 5-8)",
             q: "8. The word 'suspended' in the second sentence is closest in meaning to:",
             opts: [
                 { t: "Cancelled", c: false },
@@ -418,7 +552,8 @@
             ]
         },
         {
-            text: "TEXT 3 (Questions 9-12)\n(1) The concept of 'Universal Basic Income' (UBI) proposes that all citizens receive a regular, unconditional sum of money from the government. (2) Proponents argue that UBI would alleviate poverty and provide a safety net for workers displaced by automation. (3) Critics, however, fear that it would disincentivize work and lead to labor shortages. (4) Results from pilot programs have been mixed; while some recipients used the funds to further their education, others reduced their working hours slightly. (5) Ultimately, the feasibility of UBI depends on the specific economic context of the country implementing it.",
+            text: TEXT_3,
+            title: "TEXT 3 (Questions 9-12)",
             q: "9. What is the relationship between Sentence 2 and Sentence 3?",
             opts: [
                 { t: "Sentence 3 provides evidence for the claim in Sentence 2.", c: false },
@@ -429,7 +564,8 @@
             ]
         },
         {
-            text: "TEXT 3 (Questions 9-12)",
+            text: TEXT_3,
+            title: "TEXT 3 (Questions 9-12)",
             q: "10. Which of the following is NOT mentioned as a potential outcome of UBI?",
             opts: [
                 { t: "Reduction in poverty.", c: false },
@@ -440,7 +576,8 @@
             ]
         },
         {
-            text: "TEXT 3 (Questions 9-12)",
+            text: TEXT_3,
+            title: "TEXT 3 (Questions 9-12)",
             q: "11. The word 'unconditional' in the first sentence implies that:",
             opts: [
                 { t: "The money must be paid back.", c: false },
@@ -451,7 +588,8 @@
             ]
         },
         {
-            text: "TEXT 3 (Questions 9-12)",
+            text: TEXT_3,
+            title: "TEXT 3 (Questions 9-12)",
             q: "12. Based on the pilot program results (Sentence 4), which conclusion is most logical?",
             opts: [
                 { t: "UBI definitely makes people lazy.", c: false },
@@ -462,7 +600,8 @@
             ]
         },
         {
-            text: "TEXT 4 (Questions 13-16)\nAlgorithmic trading, where computers execute trades at high speeds based on pre-set criteria, now accounts for the majority of stock market activity. While this adds liquidity to the market, making it easier to buy and sell, it can also lead to 'flash crashes.' In these events, algorithms reacting to a minor dip can trigger a cascade of sell orders, causing prices to plummet within seconds. Regulators are struggling to keep pace with this technology, often implementing 'circuit breakers' that pause trading if prices drop too sharply.",
+            text: TEXT_4,
+            title: "TEXT 4 (Questions 13-16)",
             q: "13. What is the primary purpose of the text?",
             opts: [
                 { t: "To encourage more people to use algorithmic trading.", c: false },
@@ -473,7 +612,8 @@
             ]
         },
         {
-            text: "TEXT 4 (Questions 13-16)",
+            text: TEXT_4,
+            title: "TEXT 4 (Questions 13-16)",
             q: "14. What triggers a 'cascade of sell orders' in a flash crash?",
             opts: [
                 { t: "Human traders panicking.", c: false },
@@ -484,7 +624,8 @@
             ]
         },
         {
-            text: "TEXT 4 (Questions 13-16)",
+            text: TEXT_4,
+            title: "TEXT 4 (Questions 13-16)",
             q: "15. Which statement, if true, would WEAKEN the argument that algorithmic trading is dangerous?",
             opts: [
                 { t: "Flash crashes have happened three times in the last decade.", c: false },
@@ -495,7 +636,8 @@
             ]
         },
         {
-            text: "TEXT 4 (Questions 13-16)",
+            text: TEXT_4,
+            title: "TEXT 4 (Questions 13-16)",
             q: "16. The word 'plummet' is closest in meaning to:",
             opts: [
                 { t: "Fluctuate", c: false },
@@ -506,7 +648,8 @@
             ]
         },
         {
-            text: "TEXT 5 (Questions 17-20)\n**Text A:**\nThe rise of 'influencer marketing' has democratized advertising. Small businesses no longer need million-dollar budgets for TV spots; they can partner with micro-influencers to reach niche audiences effectively. This peer-to-peer model feels more authentic to consumers, who trust a recommendation from a personality they follow over a faceless corporate ad.\n\n**Text B:**\nWhile influencer marketing appears authentic, it is often unregulated. Many influencers fail to disclose paid partnerships, leading their followers to believe they are receiving a genuine, unbiased recommendation. This blurring of lines between entertainment and commercialism exploits the parasocial relationship between creator and fan, raising ethical concerns about consumer manipulation.",
+            text: TEXT_5,
+            title: "TEXT 5 (Questions 17-20)",
             q: "17. Which statement best describes the relationship between Text A and Text B?",
             opts: [
                 { t: "Text B provides specific examples to support Text A.", c: false },
@@ -517,7 +660,8 @@
             ]
         },
         {
-            text: "TEXT 5 (Questions 17-20)",
+            text: TEXT_5,
+            title: "TEXT 5 (Questions 17-20)",
             q: "18. Both texts agree that:",
             opts: [
                 { t: "Influencer marketing is expensive.", c: false },
@@ -528,7 +672,8 @@
             ]
         },
         {
-            text: "TEXT 5 (Questions 17-20)",
+            text: TEXT_5,
+            title: "TEXT 5 (Questions 17-20)",
             q: "19. In Text B, the term 'parasocial relationship' refers to:",
             opts: [
                 { t: "A business partnership between two companies.", c: false },
@@ -539,7 +684,8 @@
             ]
         },
         {
-            text: "TEXT 5 (Questions 17-20)",
+            text: TEXT_5,
+            title: "TEXT 5 (Questions 17-20)",
             q: "20. What is the author of Text B's main criticism?",
             opts: [
                 { t: "Influencers are too expensive for small businesses.", c: false },
@@ -574,14 +720,14 @@
         const q = quizData[index];
         
         // Update Text
-        document.getElementById('textTitle').innerText = q.text.split('\n')[0];
+        document.getElementById('textTitle').innerText = q.title || "READING PASSAGE";
         document.getElementById('textContent').innerText = q.text;
         
         // Update Question
         document.getElementById('questionNum').innerText = `Question ${index + 1}`;
         document.getElementById('questionText').innerText = q.q;
 
-        // Render Options (Randomize positions)
+        // Render Options
         const optArea = document.getElementById('optionsArea');
         optArea.innerHTML = '';
         document.getElementById('feedbackBox').style.display = 'none';
@@ -592,12 +738,9 @@
             if(i === index) b.classList.add('active');
         });
 
-        // Prepare options for display
+        // Prepare options
         let displayOpts = q.opts.map((opt, i) => ({ ...opt, origIdx: i }));
-        // Only shuffle if not already answered (to maintain position stability after answering)
-        // Actually, for a consistent UI, we usually seed shuffle, but here we'll shuffle once per load
-        // NOTE: To follow user request "Randomized position", we shuffle every time.
-        // However, if already answered, we must find the answered one.
+        // NOTE: Keeping random shuffle behavior for each load as requested previously
         shuffleArray(displayOpts);
 
         const isAnswered = answers[index] !== null;
